@@ -178,14 +178,29 @@ new Zadaine
             Console.Clear();
 
             int number = 0;
+            int score = 0;
             while (number < zadaines.Length - 1)
             {
                 try
                 {
-                    zadaines[number].ShowQestion();
-                    zadaines[number].checkAnsver(Console.ReadLine());
-                    number++;
+                    zadaines[number].ShowQestion(number + 1);
+
+                    bool result = zadaines[number].checkAnsver(Console.ReadLine());
+
                     Console.Clear();
+
+                    if (result)
+                    {
+                        Console.WriteLine("Правильно");
+                        score++;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Неправильно");
+                    }
+
+
+                    number++;
                 }
                 catch (Exception ex)
                 {
@@ -193,6 +208,8 @@ new Zadaine
                     Console.WriteLine(ex);
                 }
             }
+
+            Console.WriteLine($"Результат {score} из {zadaines.Length}");
 
         }
     }
@@ -202,7 +219,7 @@ new Zadaine
     {
         string Qestion { get; set; }//наш вопрос
         List<string> Ansvers { get; set; }//ответы на вопрос
-        string CorrectAnsver { get; set; } //правильный ответ //! записывается в формате 0010 или 1100, где 0-неправильный ответ, а 1-правильный
+        string CorrectAnsver { get; set; } //правильный ответ //? записывается в формате 0010 или 1100, где 0-неправильный ответ, а 1-правильный
 
 
 
@@ -250,10 +267,11 @@ new Zadaine
             {
                 Console.WriteLine($"{number}) {Qestion}");
             }
+            Console.WriteLine("Ответы:");
 
             foreach (string ansver in Ansvers)
             {
-                Console.WriteLine($"{Ansvers.IndexOf(ansver)}) {ansver}");
+                Console.WriteLine($"{Ansvers.IndexOf(ansver) + 1}) {ansver}");
             }
 
             Console.WriteLine();
